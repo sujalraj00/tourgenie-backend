@@ -40,6 +40,21 @@ app.post('/insert-trip', async (req , res) =>{
     }
 });
  
+// get data given by ai agent
+app.get('//get-latest-trip/:email', async (req, res) => {
+    const email = req.params.email;
+    try {
+        const latestTrip = await aiTripModel.findOne({email}).sort({createdAt : -1});
+        if (!latestTrip) {
+            return res.status(404).json({ success: false, message: 'No trip found for this email' });
+          }
+        res.status(200).json(latestTrip);
+    } catch (error) {
+        console.error("Error fetching user trips:", error);
+    res.status(500).json({ success: false, error: error.message });
+    }
+})
+
 //listen to the server
 server.listen(port, "0.0.0.0", () => {
     console.log(`server started on port ${port} `);
