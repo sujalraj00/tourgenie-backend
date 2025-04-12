@@ -41,7 +41,7 @@ app.post('/insert-trip', async (req , res) =>{
 });
  
 // get data given by ai agent
-app.get('//get-latest-trip/:email', async (req, res) => {
+app.get('/get-latest-trip/:email', async (req, res) => {
     const email = req.params.email;
     try {
         const latestTrip = await aiTripModel.findOne({email}).sort({createdAt : -1});
